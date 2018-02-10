@@ -1,10 +1,10 @@
-# LectioCcraper
-LectioScraper opsamler dit lectioskema og fører det over i en google kalender
+# LectioScraper
+LectioScraper opsamler dit lectioskema og fører det over i en google kalender.
 Undervisere kan hermed overføre deres skema til en google kalender, der let kan deles med andre. 
 
 
 ## sådan kommer du i gang
-1) Download python scriptet, og gem det i en mappe, som du kan huske 
+1) Download python scriptet, og gem det i en mappe, som du kan huske .
 
 ## klargøring af google
 1) Følg skridt 1 på denne side: https://developers.google.com/google-apps/calendar/quickstart/python
