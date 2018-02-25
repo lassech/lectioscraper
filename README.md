@@ -21,5 +21,7 @@ Undervisere kan hermed overføre deres skema til en google kalender, der let kan
   Du kan godt copypaste i terminalen.
 3) så skal du åbne lectio.py i en teksteditor. Notepad kan bruges, men du kan også vælge at downloade en mere avanceret. Fx                    https://atom.io/
 4) Gå til linje 29-39. Her skal du definere skoleid, lærerid, uger og c_id. Der står i boksen, hvad der skal indsættes.
-5) I din terminal skriver, går du hen til din mappe og skriver "python LectioScraper.py" efter fulgt af enter. På windows kan du gå hen til din mappe ved at skrive fx "cd c:\LectioScraper\"
+5) I din terminal skriver, går du hen til din mappe og skriver "python LectioScraper.py" efter fulgt af enter. På windows kan du gå hen til     din mappe ved at skrive fx "cd c:\LectioScraper\"
+   Første scriptet eksekveres skal du godkende det i din google calender.
 6) Nu burde lectioskemaet eksporteres til din google kalender.  
+   Eksekver gerne scriptet en gang om dagen eller når du ved at har været store ændringer i dit lectioskema.
