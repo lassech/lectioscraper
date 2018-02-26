@@ -30,7 +30,7 @@ APPLICATION_NAME = 'Google Calendar API Python Quickstart'
 
 ################################################################################
 # Indsæt skoleid og lærerid. Kan findes i webadressen til din lectio. 		   #
-# Fx her 99 og 9999999999 skoleid og lærerid 								   #
+# Fx her er 99 og 9999999999 skoleid og lærerid 							   #
 # https://www.lectio.dk/lectio/99/SkemaNy.aspx?type=laerer&laererid=9999999999 #
 # Uger er hvor lang tid frem du vil høste skemaet 							   #
 # c_id er din calenderId. Find den i din google kalender.					   #
