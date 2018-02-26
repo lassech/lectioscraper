@@ -34,12 +34,11 @@ APPLICATION_NAME = 'Google Calendar API Python Quickstart'
 # https://www.lectio.dk/lectio/99/SkemaNy.aspx?type=laerer&laererid=9999999999 #
 # Uger er hvor lang tid frem du vil høste skemaet 							   #
 # c_id er din calenderId. Find den i din google kalender.					   #
-# Uger er uden anførselstegn, men de andre kræver anførselstegn.
 ################################################################################
 skoleid = "99"
 lærerid = "9999999999"
 uger = 3
-c_id = "bju5535lcl3gdbuc@group.calendar.google.com"
+c_id = "bjuua3gdbuc@group.calendar.google.com"
 
 weekNumber = datetime.today().isocalendar()[1]
 weekNumber = "{:02}".format(weekNumber)
@@ -115,76 +114,74 @@ def getugeskema(url):
 		link = str(link)
 		if ido:  #hvis der er id
 			if "Hele dagen" not in link: #sørger for at topbrikkerne topbrikkerne kommer frem
+				date = re.search("\d{1,2}/\d{1,2}-\d{4} (?:Hele dagen|\d{2}:\d{2} til "
+	                      		"(?:\d{1,2}/\d{1,2}-\d{4} )?\d{2}:\d{2})", link)
+				dayend = date[0].index('/')
+				day = str(date[0])[0:dayend]
+				day = int(day)
+				monthend = date[0].index('-')
+				month = str(date[0])[dayend + 1:monthend]
+				month = int(month)
+				yearend = date[0].index(' ')
+				year = str(date[0])[monthend+1:yearend]
+				year = int(year)
+				## startime first digits
+				starttimefbegin = str(date[0]).index(":") -2
+				starttimefend = str(date[0]).index(":") 
+				starttimef = str(date[0])[starttimefbegin:starttimefend]
+				starttimef = int(starttimef)
+				# start time last digits
+				starttimelbegin = str(date[0]).index(":") +1
+				starttimelend = str(date[0]).index(":") +3
+				starttimel = str(date[0])[starttimelbegin:starttimelend]
+				starttimel = int(starttimel)
+				#endtime first digits
+				endtimefbegin = str(date[0]).rindex(":") -2
+				endtimefend = str(date[0]).rindex(":") 
+				endftime = str(date[0])[endtimefbegin:endtimefend]
+				endftime = int(endftime)					
+				#endtime last digits
+				endtimelbegin = str(date[0]).rindex(":") +1
+				endtimelend = str(date[0]).rindex(":") +3
+				endltime = str(date[0])[endtimelbegin:endtimelend]
+				endltime = int(endltime)
+				#fjerner uvigtige dele af infoformationem
+				link = link.replace(str(date[0]), "")
+				link = (link.replace('"', ' ', 3))
+				s='data-additionalinfo='
+				linkfirst = link.rindex(s) + len(s) +1
+				linklast = link.index('" ')
+				lectioinfo = str(link)[linkfirst:linklast]
+				lectioinfo = lectioinfo.replace("Ændret!", "")
+				#inserts into lectio calendar
+				#credentials = get_credentials()
+				#http = credentials.authorize(httplib2.Http())
+				#service = discovery.build('calendar', 'v3', http=http)
+				idd =  getidid(ido)
+				event = {
+					 'summary': lectioinfo,
+					 'id': idd,
+					# 'location': 'København',
+					# 'description': 'A chance to hear more about Google\'s developer products.',
+					 'start': {
+					   'dateTime': str(datetime(year, month, day,starttimef,starttimel).isoformat('T')),
+					   'timeZone': 'Europe/Copenhagen',
+					 },
+					 'end': {
+					   'dateTime': str(datetime(year, month, day,endftime,endltime).isoformat('T')),
+					   'timeZone': 'Europe/Copenhagen',
+					   'status': 'confirmed'
+					 },
+
+				}
 				if "Aflyst" not in link: #eksporterer elementer som ikke er aflyst
 				
-					date = re.search("\d{1,2}/\d{1,2}-\d{4} (?:Hele dagen|\d{2}:\d{2} til "
-	                      		"(?:\d{1,2}/\d{1,2}-\d{4} )?\d{2}:\d{2})", link)
-					dayend = date[0].index('/')
-					day = str(date[0])[0:dayend]
-					day = int(day)
-					monthend = date[0].index('-')
-					month = str(date[0])[dayend + 1:monthend]
-					month = int(month)
-					yearend = date[0].index(' ')
-					year = str(date[0])[monthend+1:yearend]
-					year = int(year)
-					## startime first digits
-					starttimefbegin = str(date[0]).index(":") -2
-					starttimefend = str(date[0]).index(":") 
-					starttimef = str(date[0])[starttimefbegin:starttimefend]
-					starttimef = int(starttimef)
-					# start time last digits
-					starttimelbegin = str(date[0]).index(":") +1
-					starttimelend = str(date[0]).index(":") +3
-					starttimel = str(date[0])[starttimelbegin:starttimelend]
-					starttimel = int(starttimel)
-					#endtime first digits
-					endtimefbegin = str(date[0]).rindex(":") -2
-					endtimefend = str(date[0]).rindex(":") 
-					endftime = str(date[0])[endtimefbegin:endtimefend]
-					endftime = int(endftime)
 					
-					#endtime last digits
-					endtimelbegin = str(date[0]).rindex(":") +1
-					endtimelend = str(date[0]).rindex(":") +3
-					endltime = str(date[0])[endtimelbegin:endtimelend]
-					endltime = int(endltime)
-					#fjerner uvigtige dele af infoformationem
-					link = link.replace(str(date[0]), "")
-					link = link.replace("Ændret!", "")
-					link = (link.replace('"', ' ', 3))
-					s='data-additionalinfo='
-					linkfirst = link.rindex(s) + len(s) +1
-					linklast = link.index('" ')
-					lectioinfo = str(link)[linkfirst:linklast]
-					#inserts into lectio calendar
-					#credentials = get_credentials()
-					#http = credentials.authorize(httplib2.Http())
-					#service = discovery.build('calendar', 'v3', http=http)
-					idd =  getidid(ido)
-					event = {
-					  'summary': lectioinfo,
-					  'id': idd,
-					 # 'location': 'København',
-					 # 'description': 'A chance to hear more about Google\'s developer products.',
-					  'start': {
-					    'dateTime': str(datetime(year, month, day,starttimef,starttimel).isoformat('T')),
-					    'timeZone': 'Europe/Copenhagen',
-					  },
-					  'end': {
-					    'dateTime': str(datetime(year, month, day,endftime,endltime).isoformat('T')),
-					    'timeZone': 'Europe/Copenhagen',
-					    'status': 'confirmed'
-					  },
-
-					}
 					print ("Følgende modul er eksporteret:")
 					print (event)
 					print ("")			
 					google_create(event, idd)
-					#event = service.events().get(calendarId=c_id, eventId=idd).execute()
-					#event['status'] = 'confirmed'
-					#updated_event = service.events().update(calendarId=c_id, eventId=event['id'], body=event).execute()
+					
 													
 				if "Aflyst!" in link:
 					idd =  getidid(ido)
@@ -194,6 +191,20 @@ def getugeskema(url):
 					try: 
 						event = service.events().get(calendarId=c_id, eventId=idd).execute()
 						event['status'] = 'cancelled'
+						updated_event = service.events().update(calendarId=c_id, eventId=event['id'], body=event).execute()
+					except HttpError as err:
+							if err.resp.status == 404:
+								print ("aflyst")
+							else:
+								raise err
+				if "Ændret!" in link:
+					idd =  getidid(ido)
+					credentials = get_credentials()
+					http = credentials.authorize(httplib2.Http())
+					service = discovery.build('calendar', 'v3', http=http)
+					try: 
+						event = service.events().get(calendarId=c_id, eventId=idd).execute()
+						event['summary'] = lectioinfo
 						updated_event = service.events().update(calendarId=c_id, eventId=event['id'], body=event).execute()
 					except HttpError as err:
 							if err.resp.status == 404:
