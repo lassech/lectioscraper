@@ -37,8 +37,8 @@ APPLICATION_NAME = 'Google Calendar API Python Quickstart'
 ################################################################################
 skoleid = "99"
 lærerid = "9999999999"
-uger = 3
-c_id = "bjuua3gdbuc@group.calendar.google.com"
+uger = 4
+c_id = "cl3gdbuc@group.calendar.google.com"
 
 weekNumber = datetime.today().isocalendar()[1]
 weekNumber = "{:02}".format(weekNumber)
@@ -204,7 +204,26 @@ def getugeskema(url):
 					service = discovery.build('calendar', 'v3', http=http)
 					try: 
 						event = service.events().get(calendarId=c_id, eventId=idd).execute()
-						event['summary'] = lectioinfo
+						event = {
+				 			'summary': lectioinfo,
+				 			'id': idd,
+							# 'location': 'København',
+							# 'description': 'A chance to hear more about Google\'s developer products.',
+				 			'start': {
+				   			'dateTime': str(datetime(year, month, day,starttimef,starttimel).isoformat('T')),
+				   			'timeZone': 'Europe/Copenhagen',
+				 			},
+				 			'end': {
+				   			'dateTime': str(datetime(year, month, day,endftime,endltime).isoformat('T')),
+				   			'timeZone': 'Europe/Copenhagen',
+				   			'status': 'confirmed'
+				 			},
+
+						}
+
+
+
+
 						updated_event = service.events().update(calendarId=c_id, eventId=event['id'], body=event).execute()
 					except HttpError as err:
 							if err.resp.status == 404:
