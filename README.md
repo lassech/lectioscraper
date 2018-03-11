@@ -15,6 +15,7 @@ Undervisere kan hermed overføre deres skema til en google kalender, der let kan
 ## Python
 1) Du skal downloade python 3 fra pythons hjemmeside. https://www.python.org/
    Det er vigtigt at det er version 3, da man ikke kan være sikker på at version 2 virker.
+   Husk at krydse Add Python to environment variables af
 2) Når python er installeret, skal du åbne en terminal. På windows åbnes den ved at trykke windowstast + r, skriv cmd og tryk enter.
    Her skal du installere en række biblioteker som får scriptet til at virke. Det gøres ved at skrive følgende efterfulgt af enter: 
   "pip install --upgrade requests beautifulsoup4 bs4 httplib2 apiclient oauth2client google-api-python-client datetime argparse"
