@@ -17,7 +17,7 @@ Undervisere kan hermed overføre deres skema til en google kalender, der let kan
    Det er vigtigt at det er version 3, da man ikke kan være sikker på at version 2 virker.
 2) Når python er installeret, skal du åbne en terminal. På windows åbnes den ved at trykke windowstast + r, skriv cmd og tryk enter.
    Her skal du installere en række biblioteker som får scriptet til at virke. Det gøres ved at skrive følgende efterfulgt af enter: 
-  "pip install --upgrade requests bs4 httplib2 apiclient oauth2client google-api-python-client datetime argparse"
+  "pip install --upgrade requests beautifulsoup4 bs4 httplib2 apiclient oauth2client google-api-python-client datetime argparse"
   Du kan godt copypaste i terminalen.
 3) så skal du åbne lectio.py i en teksteditor. Notepad kan bruges, men du kan også vælge at downloade en mere avanceret. Fx                    https://atom.io/
 4) Gå til linje 29-39. Her skal du definere skoleid, lærerid, uger og c_id. Der står i boksen, hvad der skal indsættes.
