@@ -236,10 +236,11 @@ def getugeskema(url):
 get_credentials()
 i = 0
 while i < uger:
-	weekNumber = int(weekNumber)+i
-	weekNumber = "{:02}".format(weekNumber)
-	print ("Nu hentes skemaet fra uge nr." + weekNumber)
-	url = "https://www.lectio.dk/lectio/{}/SkemaNy.aspx?type=laerer&laererid={}&week={}{}".format(skoleid, lærerid, str(weekNumber), datetime.today().year)
+	print (i)
+	weekNumberGet = int(weekNumber)+i
+	weekNumberGet = "{:02}".format(weekNumberGet)
+	print ("Nu hentes skemaet fra uge nr." + weekNumberGet)
+	url = "https://www.lectio.dk/lectio/{}/SkemaNy.aspx?type=laerer&laererid={}&week={}{}".format(skoleid, lærerid, str(weekNumberGet), datetime.today().year)
 	url = requests.get(url)
 	getugeskema(url)
 	i = i+1
