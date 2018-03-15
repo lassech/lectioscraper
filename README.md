@@ -26,3 +26,10 @@ Undervisere kan hermed overføre deres skema til en google kalender, der let kan
    Første scriptet eksekveres skal du godkende det i din google calender.
 6) Nu burde lectioskemaet eksporteres til din google kalender.  
    Eksekver gerne scriptet en gang om dagen eller når du ved at har været store ændringer i dit lectioskema.
+
+## Bat fil
+For at gøre programmet lettere at eksekvere i windows, kan du lave en bat fil. 
+
+1) I mappen er der et eksempel som du kan downloade og tilpasse (ls.bat). 
+2) Den første linje skal ændres fra ”cd C:\Users\rklc\Dropbox\LectioScraper” til ”cd ’mappen med python scriptet’”
+3) Nu burde du kunne klikke på bat-filen og programmet burde køre.
