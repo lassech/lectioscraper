@@ -16,11 +16,11 @@ Undervisere kan hermed overføre deres skema til en google kalender, der let kan
 1) Du skal downloade python 3 fra pythons hjemmeside. https://www.python.org/
    Det er vigtigt at det er version 3, da man ikke kan være sikker på at version 2 virker.
    Husk at krydse Add Python to environment variables af
-2A) Når python er installeret, skal du åbne en terminal. På windows åbnes den ved at trykke windowstast + r, skriv cmd og tryk enter.
+2) Når python er installeret, skal du åbne en terminal. På windows åbnes den ved at trykke windowstast + r, skriv cmd og tryk enter.
    Her skal du installere en række biblioteker som får scriptet til at virke. Det gøres ved at skrive følgende efterfulgt af enter: 
   "pip install --upgrade requests beautifulsoup4 bs4 httplib2 apiclient oauth2client google-api-python-client datetime argparse lxml"
   Du kan godt copypaste i terminalen.
-2B) Det kan være nødvendigt at eksekere cmd som administrator. Tryk windows startmenu. Søg på kommandoprompt - højreklik herpå og tryk kør som administrator. 
+   - Det kan være nødvendigt at eksekere cmd som administrator. Tryk windows startmenu. Søg på kommandoprompt - højreklik herpå og tryk kør     som administrator. 
 3) så skal du åbne lectio.py i en teksteditor. Notepad kan bruges, men du kan også vælge at downloade en mere avanceret. Fx                    https://atom.io/
 4) Gå til linje 29-39. Her skal du definere skoleid, lærerid, uger og c_id. Der står i boksen, hvad der skal indsættes.
 5) I din terminal skriver, går du hen til din mappe og skriver "python LectioScraper.py" efter fulgt af enter. På windows kan du gå hen til     din mappe ved at skrive fx "cd c:\LectioScraper\"
