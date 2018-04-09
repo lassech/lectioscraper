@@ -3,6 +3,9 @@ LectioScraper opsamler dit lectioskema og fører det over i en google kalender.
 Undervisere kan hermed overføre deres skema til en google kalender, der let kan deles med andre. 
 
 
+## update 09.04.2018.
+Har du brugt lectioScraper før denne dato, kan det være en idé at oprette en ny kalender eller slette alle kommende aktiviteter. Da der ellers vil kunne forekomme dobbelte aktiviteter. Har du oplevet problemer med aktiviteter som fyldte flere dage, er dette nu rettet.
+
 ## Sådan kommer du i gang
 1) Download python scriptet, og gem det i en mappe, som du kan huske. Det er filen LectioScraper.py
 
