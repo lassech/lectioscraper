@@ -42,10 +42,11 @@ c_id = "cl3gdbuc@group.calendar.google.com"
 
 weekNumber = datetime.today().isocalendar()[1]
 weekNumber = "{:02}".format(weekNumber)
+
 ###############################################################################
 
 
-def google_create(event, idd):
+def google_create(event, idd): #kode der bruges til at lave en event i google
 	credentials = get_credentials()
 	http = credentials.authorize(httplib2.Http())
 	service = discovery.build('calendar', 'v3', http=http)
@@ -60,15 +61,12 @@ def google_create(event, idd):
 
 			else:
 					raise err
-def getidid (ido):
+
+def getidid (ido): #definerer den enkelte skemabriks id. 
 	idd = str(ido)
-	iddf = idd.index("=") +1
-	iddl = idd.index("&")
-	idd = idd[iddf:iddl]
-	lidd = "lo" + lærerid
-	idd = lidd + idd
-	idd = idd.replace("aktivitetforside2.aspx?absid=", "")
-	idd = idd.replace("/", "")
+	
+	idd = re.sub("[^0-9]", "", idd)
+	idd = "lectioscraperdk" + idd
 	return idd
 
 def get_credentials():
@@ -99,14 +97,35 @@ def get_credentials():
         print('Storing credentials to ' + credential_path)
     return credentials
 
+def splitdates(dato): #bruges til at splitte lectio skemaet op i bidder.
+	dayend = dato.index('/')
+	dag = str(dato)[0:dayend]
+	dag = int(dag)
+	monthend = dato.index('-')
+	maned = str(dato)[dayend + 1:monthend]
+	maned = int(maned)
+	yearend = dato.index(' ')
+	aar = str(dato)[monthend+1:yearend]
+	aar = int(aar)
+	## startime first digits
+	timerbegin = str(dato).index(":") -2
+	timerend = str(dato).index(":") 
+	timer = str(dato)[timerbegin:timerend]
+	timer = int(timer)
+	# start time last digits
+	minutterbegin = str(dato).index(":") +1
+	minutterend = str(dato).index(":") +3
+	minutter = str(dato)[minutterbegin:minutterend]
+	minutter = int(minutter)
+	return (aar ,maned, dag, timer, minutter)
 
-def getugeskema(url):
+
+def getugeskema(url): ''
 	url.status_code
 	url.headers
 	c = url.content
 	soup = BeautifulSoup(c, "lxml")
-	samples = soup.find_all("a", "s2skemabrik")
-
+	samples = soup.find_all("a", "s2skemabrik") #finder alle skemabrikker
 
 	#søger skemabrikkerne
 	for link in samples:
@@ -116,35 +135,35 @@ def getugeskema(url):
 			if "Hele dagen" not in link: #sørger for at topbrikkerne topbrikkerne kommer frem
 				date = re.search("\d{1,2}/\d{1,2}-\d{4} (?:Hele dagen|\d{2}:\d{2} til "
 	                      		"(?:\d{1,2}/\d{1,2}-\d{4} )?\d{2}:\d{2})", link)
-				dayend = date[0].index('/')
-				day = str(date[0])[0:dayend]
-				day = int(day)
-				monthend = date[0].index('-')
-				month = str(date[0])[dayend + 1:monthend]
-				month = int(month)
-				yearend = date[0].index(' ')
-				year = str(date[0])[monthend+1:yearend]
-				year = int(year)
-				## startime first digits
-				starttimefbegin = str(date[0]).index(":") -2
-				starttimefend = str(date[0]).index(":") 
-				starttimef = str(date[0])[starttimefbegin:starttimefend]
-				starttimef = int(starttimef)
-				# start time last digits
-				starttimelbegin = str(date[0]).index(":") +1
-				starttimelend = str(date[0]).index(":") +3
-				starttimel = str(date[0])[starttimelbegin:starttimelend]
-				starttimel = int(starttimel)
-				#endtime first digits
-				endtimefbegin = str(date[0]).rindex(":") -2
-				endtimefend = str(date[0]).rindex(":") 
-				endftime = str(date[0])[endtimefbegin:endtimefend]
-				endftime = int(endftime)					
-				#endtime last digits
-				endtimelbegin = str(date[0]).rindex(":") +1
-				endtimelend = str(date[0]).rindex(":") +3
-				endltime = str(date[0])[endtimelbegin:endtimelend]
-				endltime = int(endltime)
+				dateLenght = len(str(date[0]))
+				print (dateLenght)
+				if dateLenght < 27: #hvis aktiviteten kun er på en dag. 
+					endDate = date[0]
+					beginDate = date[0]
+					dateSplit = date[0].index('til')
+					dateEnd = len(date[0])
+					beginDate = str(beginDate)[0:dateSplit-1]
+					print(beginDate)
+					year, month, day,starttimef,starttimel = splitdates(beginDate)
+					endDate = str(endDate)[dateSplit+4:dateEnd]
+					endDate = str(day) + "/" + str(month) + "-" + str(year) +" " + str(endDate)
+					print(endDate)
+					endyear, endmonth, endday,endftime,endltime = splitdates(endDate)
+					
+				if dateLenght > 27: #hvis aktiviteten fylder flere dage.
+					print(date[0])
+					endDate = date[0]
+					beginDate = date[0]
+					dateSplit = date[0].index('til')
+					dateEnd = len(date[0])
+					endDate = str(endDate)[dateSplit+4:dateEnd]
+					beginDate = str(beginDate)[0:dateSplit-1]
+					endyear, endmonth, endday,endftime,endltime = splitdates(endDate)
+					year, month, day,starttimef,starttimel = splitdates(beginDate)
+					
+				
+				
+
 				#fjerner uvigtige dele af infoformationem
 				link = link.replace(str(date[0]), "")
 				link = (link.replace('"', ' ', 3))
@@ -168,7 +187,7 @@ def getugeskema(url):
 					   'timeZone': 'Europe/Copenhagen',
 					 },
 					 'end': {
-					   'dateTime': str(datetime(year, month, day,endftime,endltime).isoformat('T')),
+					   'dateTime': str(datetime(endyear, endmonth, endday,endftime,endltime).isoformat('T')),
 					   'timeZone': 'Europe/Copenhagen',
 					   'status': 'confirmed'
 					 },
@@ -183,7 +202,7 @@ def getugeskema(url):
 					google_create(event, idd)
 					
 													
-				if "Aflyst!" in link:
+				if "Aflyst!" in link: #sætter status til aflyst i lectio. Stopper ikke, hvis det aktiviteten allerede er slettet i google.. 
 					idd =  getidid(ido)
 					credentials = get_credentials()
 					http = credentials.authorize(httplib2.Http())
@@ -214,7 +233,7 @@ def getugeskema(url):
 				   			'timeZone': 'Europe/Copenhagen',
 				 			},
 				 			'end': {
-				   			'dateTime': str(datetime(year, month, day,endftime,endltime).isoformat('T')),
+				   			'dateTime': str(datetime(endyear, endmonth, endday,endftime,endltime).isoformat('T')),
 				   			'timeZone': 'Europe/Copenhagen',
 				   			'status': 'confirmed'
 				 			},
@@ -232,7 +251,7 @@ def getugeskema(url):
 								raise err
 
 
-
+# programmet ekseveres.
 get_credentials()
 i = 0
 while i < uger:
