@@ -120,7 +120,7 @@ def splitdates(dato): #bruges til at splitte lectio skemaet op i bidder.
 	return (aar ,maned, dag, timer, minutter)
 
 
-def getugeskema(url): ''
+def getugeskema(url): 
 	url.status_code
 	url.headers
 	c = url.content
